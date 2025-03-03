@@ -39,21 +39,20 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
 
         title: Text(widget.title),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return AddPage();
-                  },
-                ),
-              );
-            },
-            icon: Icon(Icons.add),
-          ),
-        ],
+      ),
+      body: const Center(child: Text('Press the button below!')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return AddPage();
+              },
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
