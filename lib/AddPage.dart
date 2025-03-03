@@ -1,5 +1,8 @@
+import 'package:campingtool_app/model/campingtool.dart';
+import 'package:campingtool_app/provider/campingtool_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class AddPage extends StatefulWidget {
   const AddPage({super.key});
@@ -138,12 +141,42 @@ class _AddPageState extends State<AddPage> {
               ElevatedButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("บันทึกข้อมูลสำเร็จ!")),
+                    var provider = Provider.of<CampingtoolProvider>(
+                      context,
+                      listen: false,
                     );
+                    Campingtool item;
+                    if (provider.campingTools.isEmpty) {
+                      item = Campingtool(
+                        keyID: 1,
+                        toolName: toolNameController.text,
+                        quantity: int.parse(quantityController.text),
+                        date: DateFormat(
+                          "dd/MM/yyyy",
+                        ).parse(dateController.text),
+                        category: categoryController.text,
+                      );
+                    } else {
+                      item = Campingtool(
+                        keyID: provider.campingTools.last.keyID,
+                        toolName: toolNameController.text,
+                        quantity: int.parse(quantityController.text),
+                        date: DateFormat(
+                          "dd/MM/yyyy",
+                        ).parse(dateController.text),
+                        category: categoryController.text,
+                      );
+                    }
+
+                    provider.addCampingTool(item);
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("เพิ่มอุปกรณ์สำเร็จ!")),
+                    );
+                    Navigator.pop(context);
                   }
                 },
-                child: const Text('เพิ่มข้อมูล'),
+                child: const Text('เพิ่มอุปกรณ์'),
               ),
             ],
           ),
